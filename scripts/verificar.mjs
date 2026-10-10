@@ -31,6 +31,7 @@ if (CAPTURAS) fs.mkdirSync(path.join(RAIZ, 'screenshots'), { recursive: true });
 const foto = n => path.join(RAIZ, 'screenshots', n);
 
 const fallos = [], notas = [];
+const paginasConsejo = dir => fs.readdirSync(dir).filter(f => /^consejo-[a-z0-9-]+\.html$/.test(f));
 function comprobar(ok, mensaje) { (ok ? notas : fallos).push((ok ? 'OK   ' : 'FALLA') + ' · ' + mensaje); }
 const espera = ms => new Promise(r => setTimeout(r, ms));
 
@@ -91,7 +92,7 @@ function estaticas() {
 
   const index = leer(RAIZ, 'index.html');
   if (!negocio.indexar) {
-    const sinNoindex = ['index.html', 'aviso-legal.html', 'privacidad.html', '404.html'].filter(p => !/<meta name="robots" content="noindex, nofollow">/.test(leer(RAIZ, p)));
+    const sinNoindex = ['index.html', 'aviso-legal.html', 'privacidad.html', '404.html', ...paginasConsejo(RAIZ)].filter(p => !/<meta name="robots" content="noindex, nofollow">/.test(leer(RAIZ, p)));
     comprobar(!sinNoindex.length, 'noindex en todas las páginas' + (sinNoindex.length ? ' → falta en ' + sinNoindex.join(', ') : ''));
   }
   comprobar(!/aggregateRating|"review"/.test(index), 'schema.org sin aggregateRating ni review');
@@ -501,6 +502,15 @@ try {
       comprobar(r.status() === 404 && h1.length > 5 && estilo !== '', '404 propio con el lenguaje del sitio (también en una ruta anidada) → «' + h1 + '»');
       if (CAPTURAS) await page.screenshot({ path: foto('50-404.png') });
       errores.length = 0;      /* el 404 del propio documento es lo que se está probando */
+      /* consejos: cada tarjeta lleva a su página, que carga y tiene su título */
+      const index = leer(RAIZ, 'index.html');
+      const enlaces = (index.match(/href="(consejo-[a-z0-9-]+\.html)"/g) || []).map(h => h.slice(6, -1));
+      comprobar(enlaces.length === paginasConsejo(RAIZ).length && enlaces.every(e => fs.existsSync(path.join(RAIZ, e))), 'consejos: ' + enlaces.length + ' tarjetas y ' + paginasConsejo(RAIZ).length + ' páginas, todas enlazadas');
+      for (const p of enlaces) {
+        await page.goto(base + '/' + p, { waitUntil: 'networkidle' });
+        const h = (await page.textContent('h1')).trim();
+        comprobar(h.length > 3 && index.includes('>' + h.replace(/&/g, '&amp;') + '<'), p + ' con su título → «' + h + '»');
+      }
       for (const p of ['aviso-legal.html', 'privacidad.html']) {
         await page.goto(base + '/' + p, { waitUntil: 'networkidle' });
         const t = await page.textContent('main');
@@ -550,7 +560,7 @@ try {
       notas.push('INFO  · reskin ' + slugPrueba + ': aplicar.mjs en ' + ms + ' ms');
       comprobar(!/✗/.test(leer(copia, 'marca', '_contraste.txt').split('\n\n')[0]), 'reskin ' + slugPrueba + ': contraste AA de la nueva marca');
 
-      const generados = ['index.html', 'aviso-legal.html', 'privacidad.html', '404.html', 'css/marca.css', 'manifest.json', 'favicon.svg'];
+      const generados = ['index.html', 'aviso-legal.html', 'privacidad.html', '404.html', 'css/marca.css', 'manifest.json', 'favicon.svg', ...paginasConsejo(copia)];
       const restos = [];
       for (const g of generados) {
         const t = leer(copia, g);

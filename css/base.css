@@ -573,7 +573,7 @@ button { font: inherit; }
   color: var(--acento-texto);
   transition: background-color .5s var(--suave), color .5s var(--suave);
 }
-.paso.encendido .paso__num { background: var(--acento); color: var(--sobre-acento); }
+.paso.encendido .paso__num { background: var(--boton); border-color: var(--boton); color: var(--sobre-boton); }
 .paso h3 { font-size: calc(1.5rem * var(--escala-display)); line-height: 1.15; margin-bottom: .6rem; }
 .paso p { margin: 0; color: var(--apagado); }
 
@@ -691,6 +691,66 @@ button { font: inherit; }
 .cita:nth-child(even) { margin-left: clamp(0rem, 6vw, 5rem); }
 .con-movimiento .cita { opacity: 0; transform: translate3d(0, 40px, 0); transition: opacity 1s var(--suave), transform 1.2s var(--suave); }
 .con-movimiento .cita.visible { opacity: 1; transform: none; }
+
+/* ═══════════════ quiénes somos ═══════════════ */
+.sobre {
+  background: var(--superficie);
+  padding: clamp(5rem, 10vw, 8.5rem) var(--margen);
+  display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: 2rem clamp(3rem, 6vw, 6rem);
+}
+.sobre__texto p { margin: 0 0 1.2rem; max-width: 40rem; color: var(--apagado); }
+.sobre__texto p:first-child {
+  color: var(--tinta);
+  font: var(--peso-display) calc(clamp(1.25rem, 1.05rem + .7vw, 1.6rem) * var(--escala-display))/1.35 var(--f-display);
+  letter-spacing: var(--tracking-display);
+}
+.sobre__destacados { list-style: none; margin: 2rem 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: .7rem; }
+.sobre__destacados li {
+  display: inline-flex; align-items: center; gap: .55rem;
+  padding: .55rem 1rem .55rem .8rem;
+  border: var(--grosor) solid var(--linea-fuerte); border-radius: var(--radio-s);
+  background: var(--fondo); font-weight: 600;
+}
+.sobre__marca { flex: none; width: 1.1rem; height: 1.1rem; color: var(--acento); }
+
+/* ═══════════════ consejos ═══════════════ */
+/* titular a la izquierda y tarjetas a la derecha: con dos o tres consejos no
+   queda media pantalla vacía, y con diez la rejilla sigue creciendo hacia abajo */
+.consejos {
+  padding: clamp(5rem, 10vw, 8.5rem) var(--margen);
+  max-width: calc(var(--ancho-max) + 2 * var(--margen)); margin: 0 auto;
+  display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: 2.5rem clamp(3rem, 6vw, 6rem); align-items: start;
+}
+.consejos__lista {
+  list-style: none; margin: 0; padding: 0;
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 16rem), 1fr)); gap: clamp(1rem, 2vw, 1.6rem);
+}
+.consejo__enlace {
+  display: flex; flex-direction: column; gap: .8rem; height: 100%;
+  padding: clamp(1.5rem, 2.6vw, 2.2rem);
+  border: var(--grosor) solid var(--linea-fuerte); border-radius: var(--radio-m);
+  background: var(--fondo); color: inherit; text-decoration: none;
+  transition: border-color .35s ease, transform .45s var(--ease-css);
+}
+.consejo__enlace:hover { border-color: var(--acento); transform: translateY(-3px); }
+.consejo__num { font: var(--peso-display) calc(1.6rem * var(--escala-display))/1 var(--f-display); color: var(--acento-texto); }
+.consejo h3 { margin: 0; font-size: calc(clamp(1.3rem, 1.1rem + .6vw, 1.6rem) * var(--escala-display)); line-height: 1.2; }
+.consejo p { margin: 0; color: var(--apagado); }
+.consejo__leer { margin-top: auto; padding-top: .6rem; display: inline-flex; align-items: center; gap: .4rem; font-weight: 600; color: var(--acento-texto); }
+.consejo__leer svg { transition: transform .45s var(--ease-css); }
+.consejo__enlace:hover .consejo__leer svg { transform: translateX(4px); }
+
+/* página de un consejo (usa la maqueta de las legales) */
+.articulo__intro { font-size: 1.15rem; }
+.articulo__puntos { list-style: none; padding: 0 !important; margin: 1.6rem 0; }
+.articulo__puntos li { display: flex; gap: .8rem; align-items: baseline; padding: .7rem 0; margin: 0 !important; border-bottom: var(--grosor) solid var(--linea); }
+.articulo__marca { flex: none; width: .95rem; height: .95rem; color: var(--acento); transform: translateY(.1rem); }
+.articulo__llamar {
+  margin-top: 2.6rem; padding: clamp(1.4rem, 3vw, 2rem);
+  border-radius: var(--radio-m); background: var(--superficie);
+}
+.articulo__llamar p { margin: 0 0 1rem; font-weight: 600; }
+.articulo__acciones { display: flex; flex-wrap: wrap; align-items: center; gap: 1rem 1.6rem; }
 
 /* ═══════════════ preguntas ═══════════════ */
 .preguntas {
@@ -959,7 +1019,7 @@ html.con-cursor, html.con-cursor * { cursor: none !important; }
   .galeria__item:nth-child(n) { grid-column: auto; margin-top: 0; }
   .galeria__item:nth-child(4n+1) { grid-column: 1 / -1; }
 
-  .resenas, .preguntas, .visita { grid-template-columns: 1fr; }
+  .resenas, .preguntas, .visita, .sobre, .consejos { grid-template-columns: 1fr; }
   .resenas__nota, .visita__mapa { position: static; }
   .cita:nth-child(even) { margin-left: 0; }
   .visita__mapa { max-width: 30rem; }

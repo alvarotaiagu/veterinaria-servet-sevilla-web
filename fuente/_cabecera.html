@@ -6,10 +6,12 @@
     </span>
   </a>
   <nav class="cabecera__nav" id="menu" aria-label="Principal">
+    {{#modulos.sobre}}<a href="{{pagina.inicio}}#sobre">Nosotros</a>{{/modulos.sobre}}
     <a href="{{pagina.inicio}}#servicios">Servicios</a>
     <a href="{{pagina.inicio}}#especies">Especies</a>
     {{#modulos.equipo}}<a href="{{pagina.inicio}}#equipo">Equipo</a>{{/modulos.equipo}}
     {{#urg.activo}}<a href="{{pagina.inicio}}#urgencias">Urgencias</a>{{/urg.activo}}
+    {{#modulos.consejos}}<a href="{{pagina.inicio}}#consejos">Consejos</a>{{/modulos.consejos}}
     <a href="{{pagina.inicio}}#visita">Horario</a>
     <a class="cabecera__cita-movil" href="{{cita.href}}"{{#cita.externa}} target="_blank" rel="noopener"{{/cita.externa}}>{{cita.texto}}</a>
   </nav>

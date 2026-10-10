@@ -10,7 +10,7 @@ Qué hace:
      línea con «[MANDO DE MAQUETA] inicio» y otra con «[MANDO DE MAQUETA] fin»
      (ambas incluidas). Se niega a escribir si las marcas no cuadran o si un
      archivo pierde más líneas de las que suman sus bloques.
-  2. Borra css/marcas/ y marca/pruebas/ (las marcas de prueba no son del cliente).
+  2. Borra css/marcas/, marca/pruebas/ y marca/_hoja.png (las marcas de prueba no son del cliente).
   3. Ejecuta node scripts/aplicar.mjs para regenerar las páginas.
 
 La versión elegida en la reunión NO se pierde: se fija en marca/marca.json
@@ -66,6 +66,11 @@ def quitar(raiz, aplicar=True):
         if os.path.isdir(p):
             shutil.rmtree(p)
             cambios.append(d + '/ borrada')
+    # la hoja de marcas de la demo (Lontra, Arxila, O Corzo) tampoco es del cliente
+    hoja = os.path.join(raiz, 'marca', '_hoja.png')
+    if os.path.isfile(hoja):
+        os.remove(hoja)
+        cambios.append('marca/_hoja.png borrada')
     if aplicar:
         subprocess.run(['node', os.path.join(raiz, 'scripts', 'aplicar.mjs'), '--sin-og', '--silencio'], check=True, cwd=raiz)
     return cambios

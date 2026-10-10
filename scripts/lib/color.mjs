@@ -101,6 +101,48 @@ export function mejorSobre(fondo, candidatos) {
   return candidatos.slice().sort((a, b) => contraste(b, fondo) - contraste(a, fondo))[0];
 }
 
+/* ── APCA (W3 0.0.98G): contraste percibido, Lc de 0 a ~106 ──
+   WCAG 2 da por bueno el texto oscuro sobre azules y naranjas medios (4,7:1
+   sobre #027DC4) que en pantalla cuesta leer, y suspende el blanco, que se lee
+   mucho mejor (Lc 76 frente a 29). Por eso APCA ELIGE entre texto claro u
+   oscuro y WCAG sigue poniendo el mínimo. */
+const yApca = hex => {
+  const [r, g, b] = hexARgb(hex).map(v => Math.pow(v / 255, 2.4));
+  const y = 0.2126729 * r + 0.7151522 * g + 0.0721750 * b;
+  return y > 0.022 ? y : y + Math.pow(0.022 - y, 1.414);
+};
+export function apca(texto, fondo) {
+  const yt = yApca(texto), yf = yApca(fondo);
+  if (Math.abs(yf - yt) < 0.0005) return 0;
+  if (yf > yt) {
+    const s = (Math.pow(yf, 0.56) - Math.pow(yt, 0.57)) * 1.14;
+    return s < 0.1 ? 0 : (s - 0.027) * 100;
+  }
+  const s = (Math.pow(yf, 0.65) - Math.pow(yt, 0.62)) * 1.14;
+  return s > -0.1 ? 0 : (s + 0.027) * 100;
+}
+const legibilidad = (texto, fondo) => Math.abs(apca(texto, fondo));
+
+/* Sube o baja la luz (L de OKLCH, mismo matiz) de un fondo hasta que `texto`
+   llegue a `objetivo`. Devuelve { color, delta } o null si no llega. */
+export function ajustarLuz(fondo, texto, objetivo = 4.6) {
+  const o = hexAOklch(fondo);
+  const dir = luminancia(texto) > luminancia(fondo) ? -1 : 1;
+  for (let d = 0; d <= 1.0001; d += 0.005) {
+    const c = oklchAHex({ ...o, L: Math.min(1, Math.max(0, o.L + dir * d)) });
+    if (contraste(texto, c) >= objetivo) return { color: c, delta: d };
+  }
+  return null;
+}
+
+/* Texto sobre un fondo de marca: el que mejor se LEE (APCA) entre los que
+   cumplen `minimo` (WCAG); si ninguno cumple, el de más contraste WCAG. */
+export function textoSobre(fondo, candidatos, minimo) {
+  const validos = candidatos.filter(c => contraste(c, fondo) >= minimo);
+  if (!validos.length) return mejorSobre(fondo, candidatos);
+  return validos.sort((a, b) => legibilidad(b, fondo) - legibilidad(a, fondo))[0];
+}
+
 /* ─────────────────────────────────────────────────────────────────────────
    Tokens a partir de los cinco colores de marca.json.
    Devuelve { tokens, informe }: tokens = { '--nombre': '#HEX' }, informe = filas
@@ -124,19 +166,28 @@ export function derivarTokens(col) {
   t['--acento-2'] = acento2;
   t['--acento-texto'] = empujarHastaContraste(acento, tinta, [fondo, superficie]);
 
-  /* botón: el acento de marca si su texto llega a 4,5; si no, un tono aparte
-     solo para el botón (la marca se queda donde es decorativa) */
-  const sobreAcento = mejorSobre(acento, [BLANCO, tinta, fondo, NEGRO]);
-  if (contraste(sobreAcento, acento) >= 4.5) {
-    t['--boton'] = acento;
-    t['--sobre-boton'] = sobreAcento;
-  } else {
+  /* botón: primero el texto que mejor se lee sobre el acento (APCA). Si no
+     llega a 4,5 WCAG, el fondo del botón se aclara u oscurece lo justo, sin
+     cambiar el matiz y como mucho 0,12 de luz; si hace falta más, se prueba el
+     otro texto. La marca pura se queda donde es decorativa. */
+  const textos = [...new Set([BLANCO, tinta, fondo, NEGRO])]
+    .sort((a, b) => legibilidad(b, acento) - legibilidad(a, acento));
+  let boton = null;
+  for (const txt of textos) {
+    if (contraste(txt, acento) >= 4.5) { boton = { fondo: acento, texto: txt }; break; }
+    const aj = ajustarLuz(acento, txt, 4.6);
+    if (aj && aj.delta <= 0.12) { boton = { fondo: aj.color, texto: txt }; break; }
+  }
+  if (!boton) {
     const aOscuro = empujarHastaContraste(acento, NEGRO, [BLANCO], 4.6);
     const aClaro = empujarHastaContraste(acento, BLANCO, [tinta], 4.6);
     const oscuroGana = contraste(aOscuro, acento) <= contraste(aClaro, acento);
-    t['--boton'] = oscuroGana ? aOscuro : aClaro;
-    t['--sobre-boton'] = oscuroGana ? BLANCO : tinta;
+    boton = { fondo: oscuroGana ? aOscuro : aClaro, texto: oscuroGana ? BLANCO : tinta };
   }
+  t['--boton'] = boton.fondo;
+  t['--sobre-boton'] = boton.texto;
+  /* sobre el acento puro solo va texto grande o iconos (cinta, trama, monograma) */
+  const sobreAcento = textoSobre(acento, textos, 3);
   t['--sobre-acento'] = sobreAcento;
 
   /* banda: las secciones de contraste */
@@ -174,6 +225,7 @@ export function derivarTokens(col) {
     ['texto', '--acento-texto', '--fondo', 4.5],
     ['texto', '--acento-texto', '--superficie', 4.5],
     ['botón', '--sobre-boton', '--boton', 4.5],
+    ['cinta', '--sobre-acento', '--acento', 3],
     ['banda', '--sobre-banda', '--banda', 4.5],
     ['banda', '--apagado-banda', '--banda', 4.5],
     ['banda', '--acento-banda', '--banda', 4.5],

@@ -189,6 +189,20 @@
   </section>
   {{/modulos.primera_visita}}
 
+  {{#modulos.sobre}}
+  <!-- ═════════════ Quiénes somos (solo si el negocio lo cuenta en su web) ═════════════ -->
+  <section class="sobre" id="sobre" data-modulo="sobre" aria-labelledby="sobre-titulo">
+    <div class="sobre__cabeza">
+      <p class="rotulo">Quiénes somos</p>
+      <h2 class="titulo-seccion" id="sobre-titulo" data-revelar="palabras">{{sobre.titulo}}</h2>
+    </div>
+    <div class="sobre__texto">
+      {{#sobre.parrafos}}<p>{{.}}</p>{{/sobre.parrafos}}
+      {{#sobre.destacados.length}}<ul class="sobre__destacados">{{#sobre.destacados}}<li><svg class="sobre__marca" viewBox="{{marca.isotipo_vb}}" aria-hidden="true" data-vb="isotipo"><use href="#isotipo-mono-{{marca.slug}}" data-uso="isotipo-mono"/></svg><span>{{.}}</span></li>{{/sobre.destacados}}</ul>{{/sobre.destacados.length}}
+    </div>
+  </section>
+  {{/modulos.sobre}}
+
   {{#modulos.equipo}}
   <!-- ═════════════ Equipo ═════════════ -->
   <section class="equipo" id="equipo" data-modulo="equipo" aria-labelledby="equipo-titulo">
@@ -257,6 +271,26 @@
   </section>
   {{/modulos.resenas}}
 
+  {{#modulos.consejos}}
+  <!-- ═════════════ Consejos: cada uno con su página (consejo-<slug>.html) ═════════════ -->
+  <section class="consejos" id="consejos" data-modulo="consejos" aria-labelledby="consejos-titulo">
+    <div class="consejos__cabeza">
+      <p class="rotulo">Consejos</p>
+      <h2 class="titulo-seccion" id="consejos-titulo" data-revelar="palabras">{{consejos_titulo}}</h2>
+    </div>
+    <ul class="consejos__lista">
+      {{#consejos_lista}}<li class="consejo">
+        <a class="consejo__enlace" href="{{pagina}}">
+          <span class="consejo__num">{{num}}</span>
+          <h3>{{titulo}}</h3>
+          {{#entradilla}}<p>{{entradilla}}</p>{{/entradilla}}
+          <span class="consejo__leer">Leer <svg width="18" height="18" aria-hidden="true"><use href="#i-flecha"/></svg></span>
+        </a>
+      </li>{{/consejos_lista}}
+    </ul>
+  </section>
+  {{/modulos.consejos}}
+
   {{#modulos.preguntas}}
   <!-- ═════════════ Preguntas frecuentes ═════════════ -->
   <section class="preguntas" id="preguntas" data-modulo="preguntas" aria-labelledby="preguntas-titulo">
@@ -289,7 +323,7 @@
         </tbody>
       </table>
       <ul class="datos">
-        <li><svg width="22" height="22" aria-hidden="true"><use href="#i-mapa"/></svg><span>{{direccion.calle}}<br>{{direccion.cp}} {{direccion.localidad}} ({{direccion.provincia}})</span></li>
+        <li><svg width="22" height="22" aria-hidden="true"><use href="#i-mapa"/></svg><span>{{direccion.calle}}<br>{{lugar}}</span></li>
         <li><svg width="22" height="22" aria-hidden="true"><use href="#i-telefono"/></svg><a href="{{tel_href}}">{{telefono}}</a></li>
         {{#wa}}<li><svg width="22" height="22" aria-hidden="true"><use href="#i-whatsapp"/></svg><a href="{{wa.href}}" target="_blank" rel="noopener">WhatsApp {{wa.numero}}</a></li>{{/wa}}
         {{#email}}<li><svg width="22" height="22" aria-hidden="true"><use href="#i-correo"/></svg><a href="mailto:{{email}}">{{email}}</a></li>{{/email}}

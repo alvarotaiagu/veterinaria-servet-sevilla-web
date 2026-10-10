@@ -14,8 +14,16 @@ tarda unos segundos.
 ```bash
 cp -r plantilla-veterinaria-web <slug-del-cliente>-web
 cd <slug-del-cliente>-web
-rm -rf screenshots _scratch
+rm -rf screenshots _scratch scripts/obra-grafica scripts/__pycache__ PROMPT-plantilla-generica.md
 ```
+
+Si va a un **repo público**, antes del primer commit:
+
+- Reescribe `README.md`: el de la plantilla describe la demo.
+- Mete en `.gitignore` las notas internas, como `PROSPECCION.md` o `NOTAS-REUNION.md`.
+
+`quitar_mandos.py` (§8) borra `marca/pruebas/` y la hoja de marcas de la demo
+(`marca/_hoja.png`).
 
 `marca/pruebas/` se queda: el mando «Con otro logo» sirve en la reunión. Se
 borra sola al quitar los mandos (§8).
@@ -73,6 +81,11 @@ Reglas de color que no se negocian:
 - **El color del logo no se toca.** Si el acento no llega a 4,5:1 como texto,
   `aplicar.mjs` deriva `--acento-texto` y, si hace falta, un `--boton` aparte.
   El acento puro se queda en lo decorativo.
+- **Texto claro u oscuro sobre el acento: lo elige APCA, no WCAG 2.** WCAG 2
+  aprueba texto oscuro sobre azules y naranjas medios que cuesta leer (azul
+  marino sobre `#027DC4`: 4,7:1 WCAG, Lc 29 APCA; blanco: Lc 76). El botón
+  lleva el texto que mejor se lee y, si no llega a 4,5, su fondo se oscurece o
+  aclara lo justo (máx. 0,12 de luz OKLCH, mismo matiz).
 - **Fondo oscuro** (`moderna`): si el acento del logo es oscuro, el script
   propone usar el segundo color del logo. Si el logo no tiene otro color, lo
   aclara solo para la web. Díselo al cliente.
@@ -98,8 +111,10 @@ Reglas de color que no se negocian:
 | `instalaciones` | no | solo salen las fotos que existen en `media/`; sin ninguna, el módulo se quita |
 | `resenas` | no | `nota`, `recuento`, `plataforma`, `enlace`, `citas`. **Por debajo de 20 no se enseña el recuento** |
 | `preguntas` | no | nada de salud: formas de pago, aparcamiento, exóticos, domicilio |
+| `sobre` | no | «Quiénes somos»: `titulo`, `parrafos` (1–3) y `destacados` (etiquetas cortas, sin cifras). **Solo si su web tiene esa página**: se reescribe su texto, no se inventa. Sin párrafos, el módulo se quita |
+| `consejos` | no | Artículos de su web («Noticias», «Consejos»): `slug`, `titulo`, `entradilla`, `intro`, `puntos`, `cierre`. Cada uno genera `consejo-<slug>.html`. Solo los que tienen contenido de verdad (una tarjeta sin artículo no cuenta). `consejos_titulo` cambia el titular de la sección |
 | `legal.titular`, `legal.nif` | sí | aviso legal y privacidad |
-| `modulos` | no | `marquee`, `urgencias`, `primera_visita`, `equipo`, `instalaciones`, `resenas`, `preguntas` |
+| `modulos` | no | `marquee`, `urgencias`, `primera_visita`, `sobre`, `equipo`, `instalaciones`, `resenas`, `consejos`, `preguntas` |
 | `demo` | — | **`false` en un cliente real**: quita el sello de demostración |
 | `indexar` | — | `false` hasta que el cliente pague (memoria «noindex en todo») |
 | `url` | — | la dirección publicada. Sirve para la og:image y la 404 bajo prefijo |

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<!-- GENERADO por scripts/aplicar.mjs desde fuente/consejo.html (una página por consejo de negocio.json). No editar a mano. -->
+<html lang="{{idioma}}" class="sin-js densidad-{{marca.densidad}} pagina-legal" data-personalidad="{{marca.personalidad}}" data-fondo="{{marca.polaridad}}" data-logo-oscuro="{{marca.logo_oscuro}}" data-duotono="{{marca.duotono}}" data-paleta="a" data-marca="{{marca.slug}}">
+<head>
+{{> cabeza}}
+<title>{{consejo.titulo}} · {{nombre}}</title>
+<meta name="description" content="{{consejo.descripcion}}">
+</head>
+<body>
+
+<a class="salto-contenido" href="#contenido">Saltar al contenido</a>
+
+<svg class="sprite" aria-hidden="true" focusable="false" width="0" height="0">
+{{> iconos}}
+{{{sprite}}}
+</svg>
+
+{{> cabecera}}
+
+<main id="contenido" class="legal articulo">
+  <p class="rotulo">Consejos</p>
+  <h1 class="legal__titulo">{{consejo.titulo}}</h1>
+  {{#consejo.intro}}<p class="articulo__intro">{{consejo.intro}}</p>{{/consejo.intro}}
+  <ul class="articulo__puntos">
+    {{#consejo.puntos}}<li><svg class="articulo__marca" viewBox="{{marca.isotipo_vb}}" aria-hidden="true" data-vb="isotipo"><use href="#isotipo-mono-{{marca.slug}}" data-uso="isotipo-mono"/></svg><span>{{.}}</span></li>{{/consejo.puntos}}
+  </ul>
+  {{#consejo.cierre}}<p>{{consejo.cierre}}</p>{{/consejo.cierre}}
+
+  <aside class="articulo__llamar" aria-label="Pedir cita">
+    <p>¿Tienes dudas con tu animal? Pregúntanos.</p>
+    <div class="articulo__acciones">
+      <a class="boton boton--cita iman" href="{{cita.href}}"{{#cita.externa}} target="_blank" rel="noopener"{{/cita.externa}}><svg width="18" height="18" aria-hidden="true"><use href="#{{cita.icono}}"/></svg><span>{{cita.texto}}</span></a>
+      <a class="enlace" href="{{tel_href}}">{{telefono}}</a>
+    </div>
+  </aside>
+
+  <p class="legal__volver"><a class="enlace" href="index.html#consejos">Ver todos los consejos <svg width="18" height="18" aria-hidden="true"><use href="#i-flecha"/></svg></a></p>
+</main>
+
+{{> pie}}
+
+<script type="application/json" id="datos-negocio">{{{datos_json}}}</script>
+<script src="js/main.js?v={{v.main}}" defer></script>
+</body>
+</html>

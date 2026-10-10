@@ -232,7 +232,10 @@ const waHref = (t, texto) => { let d = soloDigitos(t).replace('+', ''); if (d.le
 const hora = h => h.replace(/^0/, '');
 const franjasTexto = f => f.length ? f.map(([a, b]) => hora(a) + '–' + hora(b)).join(' y ') : 'Cerrado';
 
-const direccionLinea = `${negocio.direccion.calle}, ${negocio.direccion.cp} ${negocio.direccion.localidad} (${negocio.direccion.provincia})`;
+/* «15300 Betanzos (A Coruña)», pero «41012 Sevilla» si provincia y localidad coinciden */
+const mismaProvincia = String(negocio.direccion.provincia).toLowerCase() === String(negocio.direccion.localidad).toLowerCase();
+const lugar = `${negocio.direccion.cp} ${negocio.direccion.localidad}` + (mismaProvincia ? '' : ` (${negocio.direccion.provincia})`);
+const direccionLinea = `${negocio.direccion.calle}, ${lugar}`;
 const consultaMapa = negocio.mapa_consulta || `${negocio.nombre}, ${direccionLinea}`;
 
 /* horario agrupado: «Lunes a viernes: 9:30–14:00 y 16:30–20:30» */
@@ -257,7 +260,7 @@ else if (via === 'enlace' && negocio.cita.enlace) cita = { href: negocio.cita.en
 else cita = { href: telHref(negocio.telefono), texto: 'Llamar para pedir cita', corto: 'Por teléfono · ' + negocio.telefono, icono: 'i-telefono', externa: false };
 if (via === 'whatsapp' && !wa) avisos.push('cita.via = whatsapp pero el WhatsApp no está confirmado: la cita va por teléfono');
 
-const modulos = { marquee: true, urgencias: true, primera_visita: true, equipo: true, instalaciones: true, resenas: true, preguntas: true, ...(negocio.modulos || {}) };
+const modulos = { marquee: true, urgencias: true, primera_visita: true, sobre: true, equipo: true, instalaciones: true, resenas: true, consejos: true, preguntas: true, ...(negocio.modulos || {}) };
 
 const u = negocio.urgencias || { modo: 'ninguno' };
 const modoUrg = modulos.urgencias ? (u.modo || 'ninguno') : 'ninguno';
@@ -308,6 +311,26 @@ const resenas = {
 };
 if (modulos.resenas && (rs.nota == null || !resenas.citas.length)) modulos.resenas = false;
 if (modulos.preguntas && !(negocio.preguntas || []).length) modulos.preguntas = false;
+
+/* Quiénes somos y consejos: solo si el negocio los tiene en su web. Todos los
+   campos se rellenan aquí (null o lista vacía) porque en la plantilla un campo
+   que falta se buscaría hacia fuera y heredaría el de negocio (p. ej. «entradilla») */
+const ns = negocio.sobre || {};
+const sobre = { titulo: ns.titulo || 'Así trabajamos.', parrafos: (ns.parrafos || []).filter(Boolean), destacados: (ns.destacados || []).filter(Boolean) };
+if (modulos.sobre && !sobre.parrafos.length) modulos.sobre = false;
+
+const slugTexto = t => String(t).toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+const recortar = (t, n = 158) => { t = String(t).replace(/\s+/g, ' ').trim(); return t.length > n ? t.slice(0, n - 3).replace(/\s\S*$/, '') + '…' : t; };
+const consejosLista = (negocio.consejos || []).filter(c => c && c.titulo && (c.puntos || []).length).map((c, i) => {
+  const slug = slugTexto(c.slug || c.titulo);
+  return {
+    titulo: c.titulo, entradilla: c.entradilla || null, intro: c.intro || null, puntos: c.puntos, cierre: c.cierre || null,
+    slug, pagina: 'consejo-' + slug + '.html', num: String(i + 1).padStart(2, '0'),
+    descripcion: recortar(c.entradilla || c.intro || c.titulo)
+  };
+});
+if (new Set(consejosLista.map(c => c.slug)).size !== consejosLista.length) errores.push('negocio.json: dos consejos con el mismo slug');
+if (modulos.consejos && !consejosLista.length) modulos.consejos = false;
 if (modulos.primera_visita && !(negocio.primera_visita || []).length) modulos.primera_visita = false;
 
 const redesLista = [];
@@ -376,6 +399,7 @@ const vista = {
   og_imagen: ogImagen,
   base_404: base404,
   tel_href: telHref(negocio.telefono),
+  lugar,
   wa, cita, urg,
   como_llegar_url: 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(consultaMapa),
   mapa_embed_url: 'https://www.google.com/maps?q=' + encodeURIComponent(consultaMapa) + '&output=embed',
@@ -392,6 +416,9 @@ const vista = {
   especies_cifra_texto: especiesLista.length === 1 ? 'tipo de animal en consulta' : 'tipos de animal en consulta',
   servicios_activos: serviciosActivos,
   primera_visita: (negocio.primera_visita || []).map((p, i) => ({ ...p, num: String(i + 1).padStart(2, '0') })),
+  sobre,
+  consejos_lista: consejosLista,
+  consejos_titulo: negocio.consejos_titulo || 'Para cuidarle también en casa.',
   equipo,
   instalaciones_fotos: instalacionesFotos,
   resenas,
@@ -453,6 +480,16 @@ for (const p of PAGINAS) {
   let html = renderizar(conParciales(leer('fuente/' + p)), datos);
   html = html.replace(/\n{3,}/g, '\n\n').replace(/[ \t]+\n/g, '\n');
   escribir(p, html);
+}
+
+/* una página por consejo; las de consejos que ya no están se borran */
+for (const f of fs.readdirSync(RAIZ)) if (/^consejo-[a-z0-9-]+\.html$/.test(f) && !(modulos.consejos && consejosLista.some(c => c.pagina === f))) fs.rmSync(r(f));
+if (modulos.consejos) {
+  const fuenteConsejo = conParciales(leer('fuente/consejo.html'));
+  for (const c of consejosLista) {
+    const html = renderizar(fuenteConsejo, { ...vista, consejo: c, pagina: { inicio: 'index.html' } });
+    escribir(c.pagina, html.replace(/\n{3,}/g, '\n\n').replace(/[ \t]+\n/g, '\n'));
+  }
 }
 
 /* favicon: el isotipo con sus colores */

@@ -13,7 +13,7 @@
     "calle": "Av. de Irlanda, 4",
     "cp": "41012",
     "localidad": "Sevilla",
-    "provincia": "Andalucía"
+    "provincia": "Sevilla"
   },
   "mapa_consulta": "Clínica Veterinaria Servet Sevilla, Av. de Irlanda 4, 41012 Sevilla",
   "aparcamiento": null,
@@ -188,6 +188,20 @@
       "texto": "A la línea de urgencias: 663 338 238."
     }
   ],
+  "sobre": {
+    "titulo": "Tu mascota es parte de tu familia.",
+    "parrafos": [
+      "Ofrecemos servicios veterinarios integrales y, cuando hace falta, nos apoyamos en otras empresas del sector con las que trabajamos codo con codo.",
+      "Nuestro equipo lo forman veterinarios y auxiliares técnicos veterinarios. Cada paciente es único: ajustamos el plan de diagnóstico a lo que necesita y buscamos el tratamiento más rápido, preciso y menos agresivo posible.",
+      "Tanto si se trata de una vacuna como de una cirugía complicada, nos implicamos contigo para responder a tus dudas."
+    ],
+    "destacados": [
+      "Abierto todos los días",
+      "Laboratorio propio",
+      "Hospitalización",
+      "Línea de urgencias"
+    ]
+  },
   "equipo": [],
   "hero_alt": "Un golden retriever mirando de frente",
   "instalaciones": [
@@ -261,6 +275,51 @@
       "r": "Sí, peluquería canina y felina."
     }
   ],
+  "consejos": [
+    {
+      "slug": "cachorro-nuevo",
+      "titulo": "Tengo un cachorro nuevo",
+      "entradilla": "Desde los pequeños cuidados a la alimentación.",
+      "intro": "Cuando llega un cachorro a casa, conviene tener claros unos puntos básicos:",
+      "puntos": [
+        "Dale una buena alimentación según su raza, su peso de adulto y lo que necesita para crecer. Te asesoramos en la clínica.",
+        "Reparte el pienso en varias tomas: recomendamos tres o cuatro al día, con la cantidad que indica el saco.",
+        "Sigue a conciencia el protocolo de vacunas.",
+        "Desparasítalo a tiempo: te indicaremos cuándo toca.",
+        "Pon varios puntos de agua en casa, para que pueda beber con normalidad todo el día.",
+        "Usa empapadores o zonas con papel, siempre lejos de donde come.",
+        "No lo saques a la calle hasta que te lo recomendemos.",
+        "Las heces deben ser sólidas y con buena forma; si no, háblalo con tu veterinario.",
+        "Tráelo a la clínica a menudo, para que se acostumbre al trato."
+      ],
+      "cierre": "Ante cualquier duda, ponte en contacto con nuestros veterinarios."
+    },
+    {
+      "slug": "perro-enfermo",
+      "titulo": "¿Cómo saber si tu perro está enfermo?",
+      "entradilla": "Puntos clave para saber qué le pasa.",
+      "intro": "Estas son las señales básicas que indican que un perro puede estar enfermo:",
+      "puntos": [
+        "Temperatura alta (más de 39,2 °C).",
+        "Respiración muy rápida (taquipnea).",
+        "Mala postura: tumbado de lado, con el cuello estirado, las patas en mala posición o la cabeza ladeada.",
+        "Cojera de una o varias patas.",
+        "Le cuesta caminar.",
+        "Letargo y apatía.",
+        "No quiere comer (anorexia).",
+        "Abdomen hinchado.",
+        "Intenta orinar o defecar y no puede.",
+        "Diarrea o vómitos.",
+        "Secreción purulenta por la vulva.",
+        "Heridas que sangran, profundas o infectadas.",
+        "Parásitos en las heces o en la piel.",
+        "Sangrado por la nariz, los ojos, la boca, la vulva, el pene o el ano.",
+        "Heces de color oscuro.",
+        "Inflamación de articulaciones, orejas, ojos o piel."
+      ],
+      "cierre": "Si notas alguna de estas señales, llámanos. Si es urgente, a la línea de urgencias: 663 338 238."
+    }
+  ],
   "redes": {
     "instagram": null,
     "facebook": null
@@ -278,6 +337,8 @@
     "equipo": false,
     "instalaciones": true,
     "resenas": false,
-    "preguntas": true
+    "preguntas": true,
+    "sobre": true,
+    "consejos": true
   }
 }
