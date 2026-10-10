@@ -684,10 +684,17 @@
   if (document.fonts && document.fonts.ready) {
     document.fonts.ready.then(function () { pila.montar(); refrescar(); });
   }
-  var temporizador;
+  /* En el móvil la barra del navegador sale y se esconde al cambiar de sentido el
+     scroll y lanza resize: rehacer la pila y refrescar ScrollTrigger ahí corta la
+     inercia en seco. Solo se rehace si cambia el ancho o el alto de verdad. */
+  var temporizador, anchoVista = window.innerWidth, altoVista = window.innerHeight;
   window.addEventListener('resize', function () {
+    if (window.innerWidth === anchoVista && Math.abs(window.innerHeight - altoVista) < 160) return;
     clearTimeout(temporizador);
-    temporizador = setTimeout(function () { ajustarTitulo(); hero.montar(); pila.montar(); refrescar(); }, 220);
+    temporizador = setTimeout(function () {
+      anchoVista = window.innerWidth; altoVista = window.innerHeight;
+      ajustarTitulo(); hero.montar(); pila.montar(); refrescar();
+    }, 220);
   });
   document.addEventListener('densidad-cambiada', function () {
     setTimeout(function () { ajustarTitulo(); hero.montar(); pila.montar(); refrescar(); }, 60);
