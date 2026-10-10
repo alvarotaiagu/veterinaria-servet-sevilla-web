@@ -96,6 +96,16 @@ function estaticas() {
     comprobar(!sinNoindex.length, 'noindex en todas las páginas' + (sinNoindex.length ? ' → falta en ' + sinNoindex.join(', ') : ''));
   }
   comprobar(!/aggregateRating|"review"/.test(index), 'schema.org sin aggregateRating ni review');
+  {
+    /* el menú sigue el orden de la página: cada enlace apunta a una sección que existe
+       y van en el mismo orden en que aparecen las secciones */
+    const nav = (index.match(/<nav class="cabecera__nav"[\s\S]*?<\/nav>/) || [''])[0];
+    const anclas = [...nav.matchAll(/href="[^"#]*#([\w-]+)"/g)].map(m => m[1]);
+    const posiciones = anclas.map(a => index.search(new RegExp('<section[^>]*\\sid="' + a + '"')));
+    const faltan = anclas.filter((a, i) => posiciones[i] < 0);
+    const ordenado = posiciones.every((p, i) => i === 0 || p > posiciones[i - 1]);
+    comprobar(!faltan.length && ordenado, 'menú en el orden de la página → ' + anclas.join(' · ') + (faltan.length ? ' (sin sección: ' + faltan.join(', ') + ')' : ''));
+  }
   for (const f of ['favicon.svg', 'manifest.json', '.nojekyll', 'assets/og.jpg', '404.html'])
     comprobar(fs.existsSync(path.join(RAIZ, f)), 'existe ' + f);
   if (negocio.demo) {

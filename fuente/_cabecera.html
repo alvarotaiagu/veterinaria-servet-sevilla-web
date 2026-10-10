@@ -5,12 +5,13 @@
       <svg class="logo__mono" viewBox="{{marca.logo_vb}}" data-vb="logo"><use href="#logo-mono-{{marca.slug}}" data-uso="logo-mono"/></svg>
     </span>
   </a>
+  <!-- en el MISMO orden que las secciones de index.html (verificar.mjs lo comprueba) -->
   <nav class="cabecera__nav" id="menu" aria-label="Principal">
-    {{#modulos.sobre}}<a href="{{pagina.inicio}}#sobre">Nosotros</a>{{/modulos.sobre}}
-    <a href="{{pagina.inicio}}#servicios">Servicios</a>
     <a href="{{pagina.inicio}}#especies">Especies</a>
-    {{#modulos.equipo}}<a href="{{pagina.inicio}}#equipo">Equipo</a>{{/modulos.equipo}}
+    <a href="{{pagina.inicio}}#servicios">Servicios</a>
     {{#urg.activo}}<a href="{{pagina.inicio}}#urgencias">Urgencias</a>{{/urg.activo}}
+    {{#modulos.sobre}}<a href="{{pagina.inicio}}#sobre">Nosotros</a>{{/modulos.sobre}}
+    {{#modulos.equipo}}<a href="{{pagina.inicio}}#equipo">Equipo</a>{{/modulos.equipo}}
     {{#modulos.consejos}}<a href="{{pagina.inicio}}#consejos">Consejos</a>{{/modulos.consejos}}
     <a href="{{pagina.inicio}}#visita">Horario</a>
     <a class="cabecera__cita-movil" href="{{cita.href}}"{{#cita.externa}} target="_blank" rel="noopener"{{/cita.externa}}>{{cita.texto}}</a>
