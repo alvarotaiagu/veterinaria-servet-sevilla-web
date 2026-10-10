@@ -1,0 +1,17 @@
+{
+  "_leeme": "Marca de Servet Sevilla. Colores del logo: azul #027DC4 (acento) y rojo #D02136 (acento 2). Campos en RESKIN.md §3.",
+  "slug": "servet",
+  "personalidad": "clinica",
+  "pareja": "grotesca-clinica",
+  "colores": {
+    "fondo": "#FBFDFE",
+    "superficie": "#EEF3F8",
+    "tinta": "#081F30",
+    "acento": "#027DC4",
+    "acento2": "#D02136"
+  },
+  "logo_en_oscuro": "mono",
+  "densidad": "marca",
+  "duotono": false,
+  "forma_hero": "isotipo"
+}

@@ -1,0 +1,283 @@
+{
+  "_leeme": "Datos del negocio. Tras cambiarlos: node scripts/aplicar.mjs. Guía de campos en RESKIN.md §4. Fuente de cada dato en PROSPECCION.md.",
+  "demo": false,
+  "indexar": false,
+  "idioma": "es",
+  "url": "https://alvarotaiagu.github.io/veterinaria-servet-sevilla-web/",
+  "nombre": "Clínica Veterinaria Servet Sevilla",
+  "nombre_corto": "Servet",
+  "lema": "Tu clínica veterinaria en Sevilla, abierta todos los días.",
+  "entradilla": "Cirugía y traumatología, radiología, ecografía, laboratorio propio y hospitalización en la Avenida de Irlanda. Un 4,5 en Google con más de 900 reseñas.",
+  "anio_apertura": null,
+  "direccion": {
+    "calle": "Av. de Irlanda, 4",
+    "cp": "41012",
+    "localidad": "Sevilla",
+    "provincia": "Andalucía"
+  },
+  "mapa_consulta": "Clínica Veterinaria Servet Sevilla, Av. de Irlanda 4, 41012 Sevilla",
+  "aparcamiento": null,
+  "pagos": null,
+  "telefono": "854 55 84 63",
+  "whatsapp": {
+    "numero": "640 51 89 73",
+    "confirmado": true
+  },
+  "email": "servetsevilla@gmail.com",
+  "cita": {
+    "via": "whatsapp",
+    "enlace": null
+  },
+  "horario": {
+    "lunes": [
+      [
+        "08:00",
+        "21:00"
+      ]
+    ],
+    "martes": [
+      [
+        "08:00",
+        "21:00"
+      ]
+    ],
+    "miercoles": [
+      [
+        "08:00",
+        "21:00"
+      ]
+    ],
+    "jueves": [
+      [
+        "08:00",
+        "21:00"
+      ]
+    ],
+    "viernes": [
+      [
+        "08:00",
+        "21:00"
+      ]
+    ],
+    "sabado": [
+      [
+        "09:00",
+        "17:00"
+      ]
+    ],
+    "domingo": [
+      [
+        "09:00",
+        "17:00"
+      ]
+    ]
+  },
+  "cierres": [],
+  "especies": [
+    "perro",
+    "gato"
+  ],
+  "servicios": [
+    {
+      "id": "cirugia",
+      "activo": true,
+      "titulo": "Cirugía y traumatología",
+      "texto": "Cirugía de tejidos blandos y traumatología con equipos de última generación, incluida la tecnología de cirugía sin sangrado.",
+      "incluye": [
+        "Tejidos blandos",
+        "Traumatología",
+        "Cirugía sin sangrado"
+      ]
+    },
+    {
+      "id": "imagen",
+      "activo": true,
+      "titulo": "Radiología y ecografía",
+      "texto": "Radiología digital y ecografía en la clínica: una buena imagen es la base de un buen diagnóstico.",
+      "incluye": [
+        "Radiología digital",
+        "Ecografía"
+      ]
+    },
+    {
+      "id": "medicina",
+      "activo": true,
+      "titulo": "Medicina interna y preventiva",
+      "texto": "Cada caso se estudia de forma individual para estabilizar y tratar a tu animal. Y, para que no enferme, medicina preventiva.",
+      "incluye": [
+        "Medicina interna",
+        "Medicina preventiva",
+        "Vacunas"
+      ]
+    },
+    {
+      "id": "endoscopia",
+      "activo": true,
+      "titulo": "Videoendoscopia flexible",
+      "texto": "Para ver el estómago, el intestino o la tráquea sin una gran intervención quirúrgica y con el menor dolor posible.",
+      "incluye": [
+        "Estómago e intestino",
+        "Tráquea",
+        "Sin cirugía abierta"
+      ]
+    },
+    {
+      "id": "laboratorio",
+      "activo": true,
+      "titulo": "Laboratorio propio",
+      "texto": "Hematología, bioquímica, hormonas y test de enfermedades en la propia clínica, para llegar al diagnóstico cuanto antes.",
+      "incluye": [
+        "Hematología",
+        "Bioquímica seca y húmeda",
+        "Hormonas",
+        "Test de enfermedades"
+      ]
+    },
+    {
+      "id": "hospitalizacion",
+      "activo": true,
+      "titulo": "Hospitalización",
+      "texto": "Pacientes monitorizados de forma permanente, en un espacio tranquilo hasta que se recuperan.",
+      "incluye": [
+        "Monitorización permanente",
+        "Hasta la recuperación"
+      ]
+    },
+    {
+      "id": "alimentacion",
+      "activo": true,
+      "titulo": "Alimentación especializada",
+      "texto": "En la clínica solo tenemos los alimentos que consideramos mejores: comer bien es parte de estar sano.",
+      "incluye": [
+        "Alimentos seleccionados",
+        "En la propia clínica"
+      ]
+    },
+    {
+      "id": "peluqueria",
+      "activo": true,
+      "titulo": "Peluquería canina y felina",
+      "texto": "La higiene de tu animal también es salud, para él y para toda la familia.",
+      "incluye": [
+        "Perros",
+        "Gatos"
+      ]
+    }
+  ],
+  "urgencias": {
+    "modo": "telefono",
+    "telefono": "663 338 238",
+    "horario": "Línea de urgencias, distinta de la de citas",
+    "texto": "Si tu animal tiene una urgencia, llama a la línea de urgencias de la clínica."
+  },
+  "primera_visita": [
+    {
+      "titulo": "Pide cita",
+      "texto": "Por WhatsApp o por teléfono, en el 854 55 84 63."
+    },
+    {
+      "titulo": "Trae lo que tengas",
+      "texto": "La cartilla o el pasaporte y los informes anteriores, si los hay."
+    },
+    {
+      "titulo": "Viaja tranquilo",
+      "texto": "Gatos, en transportín; perros, con correa."
+    },
+    {
+      "titulo": "Si es urgente, llama",
+      "texto": "A la línea de urgencias: 663 338 238."
+    }
+  ],
+  "equipo": [],
+  "hero_alt": "Un golden retriever mirando de frente",
+  "instalaciones": [
+    {
+      "foto": "media/instalaciones-1.jpg",
+      "alt": "Fachada de ladrillo de la clínica con el rótulo «Centro veterinario» y el logo de Servet",
+      "pie": "Fachada"
+    },
+    {
+      "foto": "media/instalaciones-2.jpg",
+      "alt": "Mesa de quirófano y máquina de anestesia",
+      "pie": "Quirófano"
+    },
+    {
+      "foto": "media/instalaciones-3.jpg",
+      "alt": "Analizador y microscopio del laboratorio",
+      "pie": "Laboratorio"
+    },
+    {
+      "foto": "media/instalaciones-4.jpg",
+      "alt": "Consulta con mesa de exploración y el logo de Servet en la pared",
+      "pie": "Consulta"
+    },
+    {
+      "foto": "media/instalaciones-5.jpg",
+      "alt": "Mostrador con el logo de Servet y estanterías de alimentación",
+      "pie": "Alimentación"
+    },
+    {
+      "foto": "media/instalaciones-6.jpg",
+      "alt": "Bombas de infusión junto a las jaulas de hospitalización",
+      "pie": "Hospitalización"
+    },
+    {
+      "foto": "media/instalaciones-7.jpg",
+      "alt": "Sala de radiología con el equipo de rayos X",
+      "pie": "Radiología"
+    },
+    {
+      "foto": "media/instalaciones-8.jpg",
+      "alt": "Ecógrafo junto a la mesa de exploración",
+      "pie": "Ecografía"
+    }
+  ],
+  "resenas": {
+    "nota": 4.5,
+    "recuento": 923,
+    "plataforma": "Google",
+    "enlace": "https://www.google.com/maps/place/?q=place_id:ChIJ7_L3wXNuEg0RuAyQq9j0b9M",
+    "citas": []
+  },
+  "preguntas": [
+    {
+      "p": "¿Puedo pedir cita por WhatsApp?",
+      "r": "Sí, en el 640 51 89 73. También por teléfono, en el 854 55 84 63."
+    },
+    {
+      "p": "¿Qué hago si es una urgencia?",
+      "r": "Llama a la línea de urgencias de la clínica, el 663 338 238."
+    },
+    {
+      "p": "¿Y si necesita algo que no hacéis en la clínica?",
+      "r": "Trabajamos codo con codo con empresas cercanas del sector para conseguir el mejor diagnóstico posible."
+    },
+    {
+      "p": "¿Vendéis comida para perros y gatos?",
+      "r": "Sí. En la clínica tenemos alimentación especializada, solo de los alimentos que consideramos mejores."
+    },
+    {
+      "p": "¿Hacéis peluquería?",
+      "r": "Sí, peluquería canina y felina."
+    }
+  ],
+  "redes": {
+    "instagram": null,
+    "facebook": null
+  },
+  "legal": {
+    "titular": "Servicios Veterinarios Integrales de Sevilla, S. L.",
+    "nif": "[PENDIENTE]",
+    "registro": null,
+    "responsable_clinico": null
+  },
+  "modulos": {
+    "marquee": true,
+    "urgencias": true,
+    "primera_visita": true,
+    "equipo": false,
+    "instalaciones": true,
+    "resenas": false,
+    "preguntas": true
+  }
+}
